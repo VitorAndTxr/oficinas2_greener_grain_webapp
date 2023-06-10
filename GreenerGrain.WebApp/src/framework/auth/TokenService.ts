@@ -88,7 +88,8 @@ class TokenService {
             let stringToken = this.getToken()
             
             if(stringToken!== null){
-                return jwt_decode<AuthTokenViewModel>(stringToken);
+                let token = jwt_decode<AuthTokenViewModel>(stringToken);
+                return token;
             }
         } catch (error) {
             console.error("error at TokenService.getDecodedToken():",error);

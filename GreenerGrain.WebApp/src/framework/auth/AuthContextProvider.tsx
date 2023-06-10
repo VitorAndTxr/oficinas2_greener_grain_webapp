@@ -69,7 +69,9 @@ const  AuthContextProvider: React.FC<AuthContextProviderProps>  = ({ children, w
   function logout() {
     tokenService.removeToken()
   }
-
+  function extractUserProfilesFromToken(decodedToken: AuthTokenViewModel | null){
+    return tokenService.extractUserProfilesFromToken(decodedToken);
+  }
   return (
     <AuthContext.Provider
       value={{
@@ -78,7 +80,8 @@ const  AuthContextProvider: React.FC<AuthContextProviderProps>  = ({ children, w
         getDecodedToken,
         getInstitutionId,
         getToken,
-        userHasProfile
+        userHasProfile,
+        extractUserProfilesFromToken
       }}
     >
       {(isAuthenticating&&waitAuthentication) ?

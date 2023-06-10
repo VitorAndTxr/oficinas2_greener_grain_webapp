@@ -3,6 +3,7 @@ import { LayoutProfile } from "./domain/enums/LayoutProfile";
 import { AuthContextProvider } from "./framework/auth/AuthContextProvider";
 import { Layout } from "./components/Layout";
 import { LoginScreen } from "./screens/Login/LoginScreen";
+import { AuthUserScreen } from "./screens/AuthUserScreen";
 
 
 function AppRoutes() {
@@ -12,16 +13,14 @@ function AppRoutes() {
 
       <Route path="/" element={
           <AuthContextProvider waitAuthentication={true}>
-            <>
-              Logado
-            </>
+            <AuthUserScreen/>
           </AuthContextProvider>
       } />
       
       <Route path="/login" element={
-        <Layout>
-          <LoginScreen/>
-        </Layout>
+
+        <LoginScreen/>
+
       }/>
       
       {/* <Route path="/queue/:code" element={
@@ -47,11 +46,9 @@ function AppRoutes() {
         </Layout>
       } /> */}
 
-      <Route path="*" element={
-        <Layout>
-          <>
-          </>
-        </Layout>
+      <Route path="*" element={ 
+        <>
+        </>
       } />
 
     </Routes>
@@ -60,5 +57,6 @@ function AppRoutes() {
 }
 
 export default AppRoutes;
+
 
 
