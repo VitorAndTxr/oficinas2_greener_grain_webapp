@@ -3,7 +3,9 @@ import { Layout } from "../../components/Layout";
 import styled from "styled-components";
 import { ButtonStyles } from "../Styles";
 import { useState } from "react";
-
+import { ClientContextProvider, useClientContext } from "../../contexts/ClientContext";
+import { useAuthContext } from "../../framework/auth/AuthContextProvider";
+import { AccountWalletService } from "../../services/AccountService";
 
 
 
@@ -11,8 +13,9 @@ export function ClientScreen({ }: ClientScreenProps) {
   return (
     <Layout
       text="Área do Cliente">
-      <ClientComponent/>
-
+      <ClientContextProvider>
+        <ClientComponent/>
+      </ClientContextProvider>
     </Layout>
   );
 }
@@ -27,40 +30,46 @@ enum ClientStateEnum{
 
 export function ClientComponent({ }: ClientComponentProps) {
 
+  const {getDecodedToken} = useAuthContext()
+  const {saldo} = useClientContext()
+
+
+  const token = getDecodedToken()
+
   const [estado, setEstado] = useState<ClientStateEnum>(ClientStateEnum.INITIAL)
   return (
     <ClientComponentStyles>
       <Row>
         <Col>
           <h3>
-            Bem-Vindo, {}!
+            Bem-Vindo, {token!.name}!
           </h3>
         </Col>
       </Row>
       <Row>
         <Col>
           <h3>
-            Saldo:{}R$
+            Saldo:{saldo}R$
           </h3>
         </Col>
       </Row>
       {
         estado===ClientStateEnum.INITIAL&&
         <>
-        <Row>
-          <Col>
-            <ButtonStyles>
-              Adicionar Créditos
-            </ButtonStyles>
-          </Col>
-        </Row>
-        <Row>
-          <Col>
-            <ButtonStyles>
-              Comprar
-            </ButtonStyles>
-          </Col>
-        </Row>
+          <Row>
+            <Col>
+              <ButtonStyles>
+                Adicionar Créditos
+              </ButtonStyles>
+            </Col>
+          </Row>
+          <Row>
+            <Col>
+              <ButtonStyles>
+                Comprar
+              </ButtonStyles>
+            </Col>
+          </Row>
         </>
       }
 

@@ -1,6 +1,5 @@
 import  React, { createContext, useContext, useEffect, useState } from "react";
 import PageLoader from '../components/Common/PageLoader';
-import ApplicationViewModel from "../domain/viewModel/token/ApplicationViewModel";
 import AuthTokenViewModel from "../domain/viewModel/token/AuthTokenViewModel";
 import { AuthContextData } from "./AuthContextData";
 import { AuthContextProviderProps } from "./AuthContextProviderProps";
