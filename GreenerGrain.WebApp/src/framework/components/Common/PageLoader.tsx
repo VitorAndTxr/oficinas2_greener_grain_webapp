@@ -29,7 +29,7 @@ const PageLoaderStyles = styled(Container)`
     z-index: 1000;
     min-width: 100vw;
     height: 100vh;
-    background-color: #8d8d8d71;
+    background-color: #c0b9b0;
     display: flex;
     align-items: center; 
 `

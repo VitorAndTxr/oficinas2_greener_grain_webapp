@@ -1,10 +1,11 @@
-import { Col, Form, Row } from "react-bootstrap";
-import { LoginScreenStyles, LoginFormStyles, ButtonStyles } from "../Styles";
+import { Button, Col, Form, Modal, Row } from "react-bootstrap";
+import { LoginScreenStyles, LoginFormStyles, MenuButtonStyles, ModalButtonStyles } from "../Styles";
 import { useState } from "react";
 import AccountService from "../../services/AccountService";
 import { AuthorizationPayload } from "../../contexts/GoogleAuthContext";
 import { Buffer } from "buffer";
 import { AuthorizationResponseViewModel } from "../../domain/models/AccountApplicationViewModel";
+import PageLoader from "../../framework/components/Common/PageLoader";
 
 const accountService = new AccountService();
 
@@ -12,8 +13,13 @@ export function LoginScreen({ }: LoginScreenProps) {
 
   const [login,setLogin] = useState('')
   const [pass,setPass] = useState('')
+  const [showFailLoginModal,setShowFailLoginModal] = useState(false)
+  const [isLoading,setIsloading] = useState(false)
+
+
 
   function onSubmit(e:any){
+    setIsloading(true)
     let encodedPass = Buffer.from(pass).toString('base64');
     var authPayload:AuthorizationPayload ={
       login:login,
@@ -24,9 +30,19 @@ export function LoginScreen({ }: LoginScreenProps) {
       (response)=>{
         if(response!.success){
           handleSuccessfullLogin(response!.result)
-        }
-        console.log(response);
-        
+
+        }else{
+          setShowFailLoginModal(true)
+        }        
+        setIsloading(false)
+
+      }
+    )
+    .catch(
+      ()=>{
+        setShowFailLoginModal(true)
+        setIsloading(false)
+
       }
     )
 
@@ -39,10 +55,16 @@ export function LoginScreen({ }: LoginScreenProps) {
       } catch (error) {
           throw error
       }
-  }
+    }
   }
   return (
     <LoginScreenStyles fluid={true}>
+      {
+        isLoading&&
+        <PageLoader
+          spinnerColor={String(process.env.REACT_APP_MAIN_COLOR)} />
+
+      } 
       <Row>
         <Col xs={'auto'} className="mx-auto logo">
           <img src={"/logo.png"} />
@@ -70,9 +92,9 @@ export function LoginScreen({ }: LoginScreenProps) {
             </Form.Group>
             <Row>
               <Col xs='auto' className="mx-auto">
-                <ButtonStyles variant="primary" onClick={(e:any) => { onSubmit(e)}}>
+                <MenuButtonStyles disabled={(pass.length==0||login.length == 0 )} variant="primary" onClick={(e:any) => { onSubmit(e)}}>
                   Entrar
-                </ButtonStyles>
+                </MenuButtonStyles>
               </Col>
             </Row>
           </LoginFormStyles>
@@ -86,10 +108,42 @@ export function LoginScreen({ }: LoginScreenProps) {
         <Col xs={'auto'} className="mx-auto">
         </Col>
       </Row>
+    <FailedLoginModal
+      showModal={showFailLoginModal}
+      closeModal={()=>setShowFailLoginModal(false)}
+    />
     </LoginScreenStyles>
   );
 }
+
 interface LoginScreenProps {
+}
+
+export function FailedLoginModal({showModal,closeModal}:FailedLoginModalProps){
+  return(
+    <Modal show={showModal} centered>
+      <Modal.Dialog>
+        <Modal.Header>
+          <Modal.Title>Acesso Negado</Modal.Title>
+        </Modal.Header>
+
+        <Modal.Body>
+          <p>As credenciais fornecidas não são válid</p>
+        </Modal.Body>
+
+        <Modal.Footer>
+          <ModalButtonStyles onClick={()=>closeModal()}>
+            Tentar Novamente
+          </ModalButtonStyles>
+        </Modal.Footer>
+      </Modal.Dialog>
+    </Modal>
+  )
+}
+
+interface FailedLoginModalProps{
+  showModal:boolean,
+  closeModal:()=>void
 }
 
 
