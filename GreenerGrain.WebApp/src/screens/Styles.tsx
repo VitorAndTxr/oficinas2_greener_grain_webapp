@@ -97,9 +97,38 @@ export const ClientComponentStyles = styled(Container)`
     font-weight: 700;
     font-size: 18px;
     line-height: 22px;
-    /* identical to box height */
-
 
     color: #4D6930;
   }
+  h1{
+    font-family: 'Inter',sans-serif;
+    font-style: normal;
+    font-weight: 700;
+    font-size: 30px;
+    line-height: 36px;
+    text-align: center;
+
+    color: #4F6D31;
+  }
+  .grain-selector{
+    background: #F8F8F8;
+    box-shadow: 6px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 10px;
+    img{
+      max-width:25vmin;
+      max-height:20vmin;
+
+    }
+      .selected{
+        background: #D9D9D9;
+      }
+  }
 `
+
+export const QuantityInputStyles = styled(InputStyles)`
+  background: #F8F8F8;
+  box-shadow: 6px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 10px;
+  width: auto;
+  height: 64px;
+`;

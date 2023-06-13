@@ -1,7 +1,5 @@
 import { Route, Routes } from "react-router-dom";
-import { LayoutProfile } from "./domain/enums/LayoutProfile";
 import { AuthContextProvider } from "./framework/auth/AuthContextProvider";
-import { Layout } from "./components/Layout";
 import { LoginScreen } from "./screens/Login/LoginScreen";
 import { AuthUserScreen } from "./screens/AuthUserScreen";
 

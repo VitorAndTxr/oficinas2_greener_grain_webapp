@@ -1,7 +1,7 @@
 import { Col, Row } from "react-bootstrap";
-import { ClientComponentStyles, InputStyles, MenuButtonStyles } from "../Styles";
+import { ClientComponentStyles, InputStyles, MenuButtonStyles, QuantityInputStyles } from "../Styles";
 import { useClientContext } from "../../contexts/ClientContext";
-import { ClientStateEnum } from "../../framework/domain/enum/ClientStateEnum";
+import { ClientStateEnum } from "../../domain/enums/ClientStateEnum";
 
 
 export function ClientComponent({ }: ClientComponentProps) {
@@ -11,9 +11,14 @@ export function ClientComponent({ }: ClientComponentProps) {
     token, 
     estado, 
     unitCode, 
+    unit,
     setUnitCode, 
     setEstado,
-    getUnitOnlineByCode
+    getUnitOnlineByCode,
+    quantity, setQuantity,
+    selectedGrain, setSelectedGrain,
+    createBuyTransaction,
+    getTotalValue
   } = useClientContext();
 
   return (
@@ -66,6 +71,81 @@ export function ClientComponent({ }: ClientComponentProps) {
             </Col>
           </Row>
         </>}
+        {estado === ClientStateEnum.BUY &&
+          <Row className="my-5">
+            <Col xs='auto' className="mx-auto">
+              <Row>
+                <Col>
+                  <h3>
+                    Selecione um dos grãos disponíveis:
+                  </h3>
+                </Col>
+              </Row>
+              <Row>
+                <Col className={"grain-selector px-3 mx-2"}>
+                  {
+                    unit.modules.sort((a, b) => a.order - b.order).map((module)=>{
+                      return(
+                        <Row onClick={()=>setSelectedGrain(module.grain.id)} className={"my-2 py-3 "+(selectedGrain === module.grain.id?'selected':'')}>
+                          <Col xs='auto'>
+                            <img src={module.grain.imageUrl}/>
+                          </Col>
+                          <Col className="my-auto">
+                            <h3>
+                              {module.grain.name}
+                            </h3>
+                          </Col>
+                          <Col xs='auto' className="my-auto">
+                            <h3>
+                              {module.grain.price.toFixed(2)} R$/Kg
+                            </h3>
+                          </Col>
+                        </Row>
+                      ) 
+                    })
+                  }
+                </Col>
+              </Row>
+              <Row className="my-3">
+                <Col xs={4} className="my-auto">
+                  <h3>
+                    Quantidade em gramas:
+                  </h3>
+                </Col>
+                <Col>
+                  <QuantityInputStyles
+                    onChange={(e:any)=>setQuantity(e.target.value)}
+                    value={quantity}
+                    type="number"
+                  />  
+                </Col>
+              </Row>
+              <Row>
+                <Col>
+                  <h3>
+                    Valor Total
+                  </h3>
+                </Col>
+                <Col>
+                  <h1>
+                    {
+                      (getTotalValue().toFixed(2))
+                    }R$
+                  </h1>
+                </Col>
+                
+              </Row>
+              <Row>
+                <Col>
+                  <MenuButtonStyles 
+                    disabled={quantity<100||getTotalValue()<1} onClick={()=>{createBuyTransaction()}}>
+                    Avançar
+                  </MenuButtonStyles>
+                </Col>
+              </Row>
+            </Col>
+          </Row>
+        }
 
     </ClientComponentStyles>
   );

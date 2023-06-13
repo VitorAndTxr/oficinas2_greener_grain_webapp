@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import ApiResponse from "../framework/domain/api/ApiResponse";
 import ApiInterface from "../framework/interface/ApiInterface";
-import { AccountWalletViewModel } from "../framework/domain/viewModel/AccountWalletViewModel";
+import { AccountWalletViewModel } from "../domain/models/AccountWalletViewModel";
 
 
 export class AccountWalletService {

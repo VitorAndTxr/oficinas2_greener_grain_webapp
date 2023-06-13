@@ -1,7 +1,7 @@
 import { AxiosResponse } from "axios";
 import ApiResponse from "../framework/domain/api/ApiResponse";
 import ApiInterface from "../framework/interface/ApiInterface";
-import { UnitViewModel } from "../framework/domain/viewModel/UnitViewModel";
+import { UnitViewModel } from "../domain/models/UnitViewModel";
 
 
 export class UnitService {

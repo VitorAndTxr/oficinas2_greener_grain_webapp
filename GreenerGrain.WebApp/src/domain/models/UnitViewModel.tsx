@@ -1,4 +1,4 @@
-import { UnitStateEnum } from "../enum/UnitStateEnum";
+import { UnitStateEnum } from "../enums/UnitStateEnum";
 import { ModuleViewModel } from "./ModuleViewModel";
 
 export interface UnitViewModel {

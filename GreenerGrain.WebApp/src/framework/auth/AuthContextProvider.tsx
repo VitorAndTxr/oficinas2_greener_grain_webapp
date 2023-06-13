@@ -24,9 +24,11 @@ const  AuthContextProvider: React.FC<AuthContextProviderProps>  = ({ children, w
   function loadAuthContext() {
 
     let token = tokenService.getToken();
-  
+    console.log('token',token);
+    
     if (token === null) {
       let query = new URLSearchParams(window.location.search).get(String(process.env.REACT_APP_NAME_TOKEN));
+      console.log('query',query);
 
       if (query !== null && query !== "") {
 
